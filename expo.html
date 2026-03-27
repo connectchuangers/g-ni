@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="fr" class="light">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>G-NI : Guide Numérique Intelligent | CHU Angers</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#00201d",
+              "surface-container-high": "#e6e8e9",
+              "on-primary-fixed-variant": "#004b72",
+              "outline": "#71787f",
+              "on-surface-variant": "#41484d",
+              "tertiary-fixed-dim": "#83d3cb",
+              "on-secondary-container": "#131d23",
+              "surface-container-low": "#f0f1f2",
+              "on-surface": "#1a1c1e",
+              "on-secondary-fixed-variant": "#344a55",
+              "tertiary": "#006a62",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#001d30",
+              "secondary-fixed": "#cfe6f2",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#00201d",
+              "surface-container": "#ebeced",
+              "secondary-container": "#cfe6f2",
+              "on-secondary-fixed": "#131d23",
+              "primary-fixed-dim": "#91ccf0",
+              "tertiary-container": "#a0efdf",
+              "secondary-fixed-dim": "#b3cad5",
+              "surface-bright": "#f8fafb",
+              "primary-container": "#cfe6f2",
+              "on-primary-fixed": "#001d30",
+              "primary-fixed": "#cfe6f2",
+              "tertiary-fixed": "#a0efdf",
+              "on-surface-fixed": "#1a1c1e",
+              "primary": "#005581",
+              "surface-variant": "#dee3e8",
+              "secondary": "#4c626d",
+              "on-surface-fixed-variant": "#41484d",
+              "surface": "#f8fafb",
+            },
+            fontFamily: {
+              manrope: ["Manrope", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .modal-animate-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .tech-list li::before { content: "•"; color: #005581; font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+        
+        /* Timeline styles */
+        .timeline-line { width: 2px; background: linear-gradient(to bottom, #cfe6f2, #005581, #cfe6f2); }
+        .timeline-dot { width: 12px; height: 12px; border: 2px solid #005581; background: #ffffff; z-index: 10; transition: all 0.3s ease; }
+        .timeline-item:hover .timeline-dot { background: #005581; transform: scale(1.3); }
+
+        /* Animation pour le menu déroulant des experts */
+        .grid-expand {
+            display: grid;
+            animation: slideDown 0.4s ease-out forwards;
+            transform-origin: top center;
+        }
+        @keyframes slideDown {
+            0% { opacity: 0; transform: scaleY(0.9); }
+            100% { opacity: 1; transform: scaleY(1); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-surface-variant">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="relative w-12 h-12 flex items-center justify-center">
+                    <img src="Logo GNI_Small_CHU Angers.jpg" alt="Logo G-NI" class="max-w-full max-h-full object-contain rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-10 h-10 bg-primary rounded-xl items-center justify-center text-on-primary font-bold text-xl">G</div>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-on-surface-variant">
+                <a href="#vision" class="hover:text-primary transition-colors">Vision</a>
+                <a href="#usages" class="hover:text-primary transition-colors">Cas d'usage</a>
+                <a href="#architecture" class="hover:text-primary transition-colors">Architecture</a>
+                <a href="#methodologie" class="hover:text-primary transition-colors">Déploiement</a>
+                <a href="#perspectives" class="hover:text-primary transition-colors">Perspectives</a>
+                <a href="https://www.santexpo.com/" target="_blank" rel="noopener noreferrer" class="bg-primary text-on-primary px-4 py-2 rounded-full text-xs font-bold hover:shadow-md transition-all">
+                    SantExpo 2026
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="py-20 px-6 bg-gradient-to-b from-primary-container/30 to-surface">
+            <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-bold mb-6">
+                        <span class="material-symbols-outlined text-sm">verified</span>
+                        Candidature Prix de l'Innovation 2026
+                    </div>
+                    <h2 class="text-5xl font-extrabold text-on-primary-fixed-variant leading-tight mb-6">
+                        G-NI : L'IA Générative <br/><span class="text-primary tracking-tight">Souveraine</span> du CHU d'Angers.
+                    </h2>
+                    <p class="text-lg text-on-surface-variant mb-8 leading-relaxed max-w-xl">
+                        Le <strong>Guide Numérique Intelligent</strong> est une plateforme maîtrisée, déjà en production, offrant une alternative sécurisée au "Shadow IT" pour les professionnels de santé.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        
+                        <button id="openDemo" class="bg-surface-container-high text-on-surface px-8 py-4 rounded-2xl font-bold border border-outline/20 hover:bg-surface-container transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">play_circle</span>
+                            Voir la démo
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] shadow-2xl border border-surface-variant relative z-10">
+                        <div class="flex items-center gap-4 mb-6 border-b border-surface-variant pb-4">
+                            <div class="w-12 h-12 bg-primary-fixed-dim rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-on-primary-container">psychology</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-on-surface">Assistant G-NI</h3>
+                                <p class="text-xs text-on-surface-variant italic">Modèle local souverain</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-surface-container-low p-4 rounded-2xl text-sm text-on-surface-variant border border-outline/10">
+                                "Besoin de synthétiser le protocole d'admission pour le service Dermatologie..."
+                            </div>
+                            <div class="bg-primary-container/40 p-4 rounded-2xl text-sm text-on-primary-container leading-relaxed border border-primary/10">
+                                <strong>G-NI :</strong> Voici la synthèse basée sur le document 'Protocole_V4'. Les points clés sont : 1. Accueil patient... 2. Vérification constante... 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-tertiary-fixed-dim rounded-full mix-blend-multiply filter blur-2xl opacity-30"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision & Piliers -->
+        <section id="vision" class="py-24 px-6">
+            <div class="max-w-7xl mx-auto text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-on-surface mb-4">Une réponse concrète aux enjeux hospitaliers</h2>
+                <p class="text-on-surface-variant max-w-2xl mx-auto">Souveraineté, Sécurité et Performance au service du soin et de l'administration.</p>
+            </div>
+            <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline/10 hover:border-primary/30 transition-all text-center md:text-left shadow-sm">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4">shield_lock</span>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Sécurité HDS / RGPD</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Infrastructure certifiée HDS (OVHcloud) garantissant que les données de santé ne transitent jamais par des services tiers externes.</p>
+                </div>
+                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline/10 hover:border-primary/30 transition-all text-center md:text-left shadow-sm">
+                    <span class="material-symbols-outlined text-4xl text-tertiary mb-4">hub</span>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Lutte contre le Shadow IT</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Offrir un outil institutionnel puissant pour éviter l'usage de solutions grand public non sécurisées par le personnel hospitalier.</p>
+                </div>
+                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline/10 hover:border-primary/30 transition-all text-center md:text-left shadow-sm">
+                    <span class="material-symbols-outlined text-4xl text-on-primary-fixed-variant mb-4">bolt</span>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Performance Métier</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Automatisation des tâches chronophages pour redonner du temps aux soignants et administratifs du CHU.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cas d'Usages Actuels -->
+        <section id="usages" class="py-24 px-6 bg-surface-container-high/30">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-on-surface mb-12">4 Cas d'usage en production</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-surface-variant">
+                        <div class="w-12 h-12 bg-primary-container rounded-2xl flex items-center justify-center mb-4 text-primary">
+                            <span class="material-symbols-outlined">menu_book</span>
+                        </div>
+                        <h4 class="font-bold text-on-surface mb-2 text-sm">RAG Documentaire</h4>
+                        <p class="text-[11px] text-on-surface-variant">Interrogation intelligente des bases documentaires institutionnelles.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-surface-variant">
+                        <div class="w-12 h-12 bg-tertiary-container rounded-2xl flex items-center justify-center mb-4 text-tertiary">
+                            <span class="material-symbols-outlined">alternate_email</span>
+                        </div>
+                        <h4 class="font-bold text-on-surface mb-2 text-sm">Agent Outlook</h4>
+                        <p class="text-[11px] text-on-surface-variant">Aide à la synthèse de mails et rédaction de réponses types sécurisées.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-surface-variant">
+                        <div class="w-12 h-12 bg-secondary-container rounded-2xl flex items-center justify-center mb-4 text-secondary">
+                            <span class="material-symbols-outlined">medical_services</span>
+                        </div>
+                        <h4 class="font-bold text-on-surface mb-2 text-sm">Centre Anti-Poison</h4>
+                        <p class="text-[11px] text-on-surface-variant">Support à l'identification de protocoles lors des gardes médicales.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-surface-variant">
+                        <div class="w-12 h-12 bg-surface-variant rounded-2xl flex items-center justify-center mb-4 text-on-surface-variant">
+                            <span class="material-symbols-outlined">construction</span>
+                        </div>
+                        <h4 class="font-bold text-on-surface mb-2 text-sm">Assistant DSN / IT</h4>
+                        <p class="text-[11px] text-on-surface-variant">Aide au support utilisateur et résolution rapide d'incidents informatiques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Fonctionnelle & Technique -->
+        <section id="architecture" class="py-24 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-on-surface mb-4">Architecture & Gouvernance</h2>
+                    <p class="text-on-surface-variant max-w-3xl mx-auto">Une infrastructure robuste, sécurisée et entièrement maîtrisée par les équipes du CHU d'Angers.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Architecture Fonctionnelle -->
+                    <div class="bg-surface-container-low p-8 md:p-10 rounded-[3rem] border border-outline/10 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <span class="material-symbols-outlined text-primary text-3xl">account_tree</span>
+                            <h3 class="text-2xl font-bold text-on-surface">Architecture Fonctionnelle</h3>
+                        </div>
+                        <div class="space-y-8">
+                            <div>
+                                <h4 class="font-bold text-primary mb-3">Interface & Orchestration</h4>
+                                <ul class="tech-list pl-5 space-y-2 text-sm text-on-surface-variant">
+                                    <li><strong>Interface Web (OpenWebUI) :</strong> Gestion des conversations, historique et gestion des prompts.</li>
+                                    <li><strong>Orchestrateur IA (Ollama) :</strong> Sélection et appel des modèles.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary mb-3">Modules & Connectivité</h4>
+                                <ul class="tech-list pl-5 space-y-2 text-sm text-on-surface-variant">
+                                    <li><strong>Modules complémentaires :</strong> Recherche internet privée, RAG, Outils métiers.</li>
+                                    <li><strong>API Interne :</strong> Intégration des LLM dans les agents autonomes et applications futures.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-primary-container/20 rounded-2xl border border-primary/10">
+                                <h4 class="font-bold text-primary text-xs uppercase tracking-widest mb-2 text-center">Gouvernance</h4>
+                                <p class="text-xs text-on-surface-variant text-center">Contrôle des accès, supervision, journalisation complète.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Architecture Technique -->
+                    <div class="bg-on-surface text-surface p-8 md:p-10 rounded-[3rem] shadow-2xl flex flex-col">
+                        <div class="flex items-center gap-3 mb-8">
+                            <span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl">dns</span>
+                            <h3 class="text-2xl font-bold text-white">Architecture Technique</h3>
+                        </div>
+                        <div class="space-y-8 flex-1">
+                            <div>
+                                <h4 class="font-bold text-tertiary-fixed-dim mb-3">Infrastructure HDS</h4>
+                                <ul class="tech-list pl-5 space-y-2 text-sm opacity-90">
+                                    <li><strong>Hébergement :</strong> HDS OVHcloud.</li>
+                                    <li><strong>Puissance :</strong> GPU dédié L4-180 (48Go VRAM).</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-tertiary-fixed-dim mb-3">Stack Logicielle (Docker)</h4>
+                                <ul class="tech-list pl-5 space-y-2 text-sm opacity-90">
+                                    <li><strong>Conteneurs :</strong> OpenWebUI, Ollama, SearXNG, NGINX.</li>
+                                    <li><strong>Sécurité :</strong> Isolation réseau (Edge Firewall), HTTPS, clés SSH.</li>
+                                    <li><strong>Modèles :</strong> Open-weight quantifiés et interchangeables.</li>
+                                </ul>
+                            </div>
+                            <div class="mt-auto p-4 bg-white/5 rounded-2xl border border-white/10">
+                                <h4 class="font-bold text-tertiary-fixed-dim text-xs uppercase tracking-widest mb-2 text-center">Souveraineté</h4>
+                                <p class="text-xs opacity-70 text-center">Pas d’envoi de données externes, logs locaux auditables.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Méthodologie & Déploiement -->
+        <section id="methodologie" class="py-24 px-6 bg-surface-container-low/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-4 block">Parcours du projet</span>
+                    <h2 class="text-4xl font-extrabold text-on-surface mb-4">Méthodologie & Déploiement</h2>
+                    <p class="text-on-surface-variant max-w-2xl mx-auto">Une approche incrémentale et sécurisée, de l'idée initiale à l'industrialisation massive.</p>
+                </div>
+
+                <div class="relative">
+                    <!-- Vertical Line -->
+                    <div class="absolute left-1/2 -translate-x-1/2 h-full timeline-line hidden lg:block"></div>
+                    
+                    <div class="space-y-12">
+                        <!-- Phase 0 & 1 -->
+                        <div class="flex flex-col lg:flex-row items-center gap-8 timeline-item">
+                            <div class="flex-1 text-right hidden lg:block">
+                                <h4 class="text-primary font-bold text-lg mb-2">Phase 0 — Idée</h4>
+                                <p class="text-sm text-on-surface-variant">Premières spécifications fonctionnelles et vision stratégique.</p>
+                            </div>
+                            <div class="timeline-dot rounded-full shrink-0"></div>
+                            <div class="flex-1 bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline/10">
+                                <h4 class="text-primary font-bold text-lg mb-4">Phase 1 — Prototype initial</h4>
+                                <ul class="text-sm text-on-surface-variant space-y-2">
+                                    <li>• Développement d’un premier POC sur PC portable.</li>
+                                    <li>• Validation technique (OpenWebUI + Ollama).</li>
+                                    <li>• Tests internes en circuit court.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2 & 3 -->
+                        <div class="flex flex-col lg:flex-row items-center gap-8 timeline-item">
+                            <div class="flex-1 bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline/10 order-2 lg:order-1">
+                                <h4 class="text-tertiary font-bold text-lg mb-4">Phase 2 — Expérimentation</h4>
+                                <p class="text-sm text-on-surface-variant mb-3 font-semibold">Groupe restreint (6 utilisateurs)</p>
+                                <ul class="text-sm text-on-surface-variant space-y-2 italic">
+                                    <li>"Validation de l'ergonomie, pertinence pour la DSN, réglages de performance."</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-dot rounded-full shrink-0 order-1 lg:order-2"></div>
+                            <div class="flex-1 text-left order-3 hidden lg:block">
+                                <h4 class="text-tertiary font-bold text-lg mb-2">Phase 3 — Industrialisation</h4>
+                                <p class="text-sm text-on-surface-variant">Migration vers serveur OVH HDS avec GPU dédié L4.</p>
+                            </div>
+                        </div>
+
+                        <!-- Phase 4 & 5 -->
+                        <div class="flex flex-col lg:flex-row items-center gap-8 timeline-item">
+                            <div class="flex-1 text-right hidden lg:block">
+                                <h4 class="text-on-primary-fixed-variant font-bold text-lg mb-2">Phase 4 — Sécurisation</h4>
+                                <p class="text-sm text-on-surface-variant">Renforcement infrastructure (HTTPS, Firewall, IP Whitelist).</p>
+                            </div>
+                            <div class="timeline-dot rounded-full shrink-0"></div>
+                            <div class="flex-1 bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline/10">
+                                <h4 class="text-on-primary-fixed-variant font-bold text-lg mb-4">Phase 5 — Ouverture progressive</h4>
+                                <p class="text-sm text-on-surface-variant mb-2">Priorité à la DSN, puis élargissement contrôlé.</p>
+                                <div class="bg-primary/10 text-primary font-bold text-xs py-2 px-4 rounded-full inline-block">
+                                    360 UTILISATEURS À CE JOUR
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 6 -->
+                        <div class="flex flex-col lg:flex-row items-center gap-8 timeline-item">
+                            <div class="flex-1 lg:text-right">
+                                <!-- empty -->
+                            </div>
+                            <div class="timeline-dot rounded-full shrink-0"></div>
+                            <div class="flex-1 bg-on-surface text-surface p-8 rounded-3xl shadow-xl">
+                                <h4 class="text-tertiary-fixed-dim font-bold text-lg mb-4">Phase 6 — Amélioration continue</h4>
+                                <ul class="text-sm opacity-80 space-y-2">
+                                    <li>• Feedback loop utilisateurs.</li>
+                                    <li>• Déploiement RAG, Agent Mail, Assistant IT.</li>
+                                    <li>• Constitution du catalogue LLM CHU.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accompagnement des utilisateurs -->
+        <section id="accompagnement" class="py-24 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-secondary font-bold text-xs uppercase tracking-[0.2em] mb-4 block">Conduite du changement</span>
+                    <h2 class="text-4xl font-extrabold text-on-surface mb-4">Accompagnement des utilisateurs</h2>
+                    <p class="text-on-surface-variant max-w-2xl mx-auto">Une dynamique d’adoption solide, structurée, et portée par un travail d’acculturation transversal dans l’établissement.</p>
+                </div>
+
+                <!-- Bandeau Statistique -->
+                <div class="bg-primary text-on-primary rounded-[3rem] p-10 md:p-14 mb-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                    <div class="relative z-10 text-center md:text-left shrink-0">
+                        <h3 class="text-6xl md:text-7xl font-extrabold mb-2 tracking-tight">360<span class="text-primary-fixed-dim">+</span></h3>
+                        <p class="text-primary-fixed font-bold tracking-widest uppercase text-sm">Utilisateurs Actifs</p>
+                    </div>
+                    <div class="relative z-10 flex-1 md:pl-12 md:border-l border-white/20 text-center md:text-left">
+                        <p class="text-lg font-bold mb-3">Professionnels de santé, équipes administratives, cadres et fonctions support.</p>
+                        <p class="text-sm text-blue-100 opacity-90 leading-relaxed">Usage quotidien pour la recherche d’information, la rédaction, l'analyse de documents et l'automatisation de processus répétitifs.</p>
+                    </div>
+                </div>
+
+                <!-- Grille d'accompagnement -->
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Sessions d'acculturation -->
+                    <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline/10 shadow-sm flex flex-col hover:border-tertiary/30 transition-colors">
+                        <div class="w-12 h-12 bg-tertiary-container text-tertiary rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-on-surface mb-6">Sessions d'Acculturation</h4>
+                        <ul class="space-y-5 text-sm text-on-surface-variant flex-1">
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-tertiary text-lg shrink-0">groups</span>
+                                <p><strong>Cadres de santé :</strong> Découverte des usages opérationnels.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-tertiary text-lg shrink-0">badge</span>
+                                <p><strong>Ressources Humaines :</strong> Optimisation des processus et communication.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-tertiary text-lg shrink-0">computer</span>
+                                <p><strong>DSN :</strong> Usage avancé et création d'agents autonomes.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-tertiary text-lg shrink-0">science</span>
+                                <p><strong>DRCI :</strong> Aide méthodologique et rédaction scientifique.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-tertiary text-lg shrink-0">campaign</span>
+                                <p><strong>Événements :</strong> Séminaire Jeunes Chercheurs & ateliers internes IA.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Support Continu DSN -->
+                    <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline/10 shadow-sm flex flex-col hover:border-secondary/30 transition-colors">
+                        <div class="w-12 h-12 bg-secondary-container text-secondary rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined">support_agent</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-on-surface mb-6">Support Continu (DSN)</h4>
+                        <ul class="space-y-5 text-sm text-on-surface-variant flex-1">
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-secondary text-lg shrink-0">build</span>
+                                <p>Assistance technique et fonctionnelle au quotidien.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-secondary text-lg shrink-0">draw</span>
+                                <p>Aide à la formulation experte des requêtes (Prompting).</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-secondary text-lg shrink-0">architecture</span>
+                                <p>Accompagnement terrain pour définir des cas d’usage adaptés aux métiers.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-secondary text-lg shrink-0">route</span>
+                                <p>Passage progressif vers des agents autonomes ou intégrés directement aux SI.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Amélioration Continue -->
+                    <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline/10 shadow-sm flex flex-col hover:border-primary/30 transition-colors">
+                        <div class="w-12 h-12 bg-primary-container text-primary rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined">update</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-on-surface mb-6">Amélioration Continue</h4>
+                        <ul class="space-y-5 text-sm text-on-surface-variant flex-1">
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-primary text-lg shrink-0">forum</span>
+                                <p>Intégration systématique des retours et feedbacks utilisateurs.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-primary text-lg shrink-0">library_add</span>
+                                <p>Amélioration continue du catalogue des modèles d'IA.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-primary text-lg shrink-0">tune</span>
+                                <p>Ajustements réguliers de l’interface et des workflows.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-primary text-lg shrink-0">low_priority</span>
+                                <p>Priorisation des nouveaux cas d’usage selon les réels besoins du terrain.</p>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="material-symbols-outlined text-primary text-lg shrink-0">menu_book</span>
+                                <p>Mise à jour constante des guides et des bonnes pratiques d'utilisation.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modèle Économique -->
+        <section id="economie" class="py-24 px-6 bg-surface-container-low/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-tertiary font-bold text-xs uppercase tracking-[0.2em] mb-4 block">Maîtrise financière</span>
+                    <h2 class="text-4xl font-extrabold text-on-surface mb-4">Modèle Économique</h2>
+                    <p class="text-on-surface-variant max-w-2xl mx-auto">Un investissement durable et prévisible, sans coût caché ni licence propriétaire onéreuse.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Hébergement -->
+                    <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline/10 shadow-sm flex flex-col">
+                        <div class="w-12 h-12 bg-primary-container text-primary rounded-full flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined">dns</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-on-surface">Investissement Maîtrisé</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">Coûts principalement liés à l’hébergement GPU OVH HDS. Un budget ajustable selon les besoins en puissance sans surprise.</p>
+                    </div>
+
+                    <!-- Coût Requête -->
+                    <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline/10 shadow-sm flex flex-col">
+                        <div class="w-12 h-12 bg-tertiary-container text-tertiary rounded-full flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined">money_off</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-on-surface">Zéro Coût Variable</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">Absence totale de coûts liés au nombre de requêtes ou à un usage intensif. L'utilisation de modèles open-weight rend les coûts logiciels quasi nuls.</p>
+                    </div>
+
+                    <!-- Mutualisation -->
+                    <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline/10 shadow-sm flex flex-col">
+                        <div class="w-12 h-12 bg-secondary-container text-secondary rounded-full flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined">share</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-on-surface">Architecture Mutualisée</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">Une seule plateforme pour tous les usages (ChatBOT, RAG). Les coûts d’exploitation sont partagés, générant des économies d’échelle.</p>
+                    </div>
+
+                    <!-- Compétences internes -->
+                    <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline/10 shadow-sm flex flex-col">
+                        <div class="w-12 h-12 bg-surface-variant text-on-surface-variant rounded-full flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined">engineering</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-on-surface">Indépendance & Autonomie</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">Montée en compétences interne de la DSN réduisant la dépendance aux prestations externes. Autonomie pour le tuning et le développement d’agents.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scalabilité & Perspectives -->
+        <section id="perspectives" class="py-24 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-16">
+                    <span class="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-4 block">Vision d'avenir</span>
+                    <h2 class="text-4xl font-extrabold text-on-surface mb-4">Scalabilité & Perspectives</h2>
+                    <p class="text-on-surface-variant max-w-3xl">G-NI n'est pas qu'une application, c'est le futur socle technologique IA du CHU, conçu pour monter en charge et s'intégrer nativement dans les métiers.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Extension Catalogue -->
+                    <div class="group p-8 rounded-[2.5rem] bg-surface-container-low border border-outline/10 hover:border-primary/40 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-primary-container rounded-2xl flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined">library_books</span>
+                            </div>
+                            <h4 class="font-bold text-xl text-on-surface">Extension du Catalogue LLM</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-on-surface-variant pl-2">
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-primary">check</span> Ajout de modèles hyperspécialisés (médical, qualité, RH, data).</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-primary">check</span> Déploiement de modèles multimodaux (analyse texte + image).</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-primary">check</span> Optimisation continue des performances et de la latence.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Nouveaux Agents -->
+                    <div class="group p-8 rounded-[2.5rem] bg-surface-container-low border border-outline/10 hover:border-tertiary/40 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-tertiary-container rounded-2xl flex items-center justify-center text-tertiary">
+                                <span class="material-symbols-outlined">robot_2</span>
+                            </div>
+                            <h4 class="font-bold text-xl text-on-surface">Nouveaux Agents Métiers</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-on-surface-variant pl-2">
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-tertiary">check</span> Assistants experts pour les soins, la logistique et la formation.</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-tertiary">check</span> Agents d'aide à la décision, synthèse et routage intelligent.</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-tertiary">check</span> Automatisation du pré-tri, de l'analyse et de la rédaction.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Intégration SIH -->
+                    <div class="group p-8 rounded-[2.5rem] bg-surface-container-low border border-outline/10 hover:border-secondary/40 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-secondary-container rounded-2xl flex items-center justify-center text-secondary">
+                                <span class="material-symbols-outlined">api</span>
+                            </div>
+                            <h4 class="font-bold text-xl text-on-surface">Intégration au SIH & APIs</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-on-surface-variant pl-2">
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">check</span> Ouverture d'APIs pour intégrer l'IA aux applications internes.</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">check</span> Création d'assistants contextuels (copilotes, aide à la saisie).</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">check</span> Soutien direct aux grands projets numériques de l'établissement.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Scalabilité Technique -->
+                    <div class="group p-8 rounded-[2.5rem] bg-surface-container-low border border-outline/10 hover:border-on-primary-fixed-variant/40 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-primary-fixed-dim rounded-2xl flex items-center justify-center text-on-primary-fixed-variant">
+                                <span class="material-symbols-outlined">monitoring</span>
+                            </div>
+                            <h4 class="font-bold text-xl text-on-surface">Scalabilité Technique Maîtrisée</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-on-surface-variant pl-2">
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-on-primary-fixed-variant">check</span> Capacité d'absorber des centaines d'utilisateurs sans refonte.</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-on-primary-fixed-variant">check</span> Montée en charge facilitée (ajout de GPU, clusterisation).</li>
+                            <li class="flex gap-2"><span class="material-symbols-outlined text-[16px] text-on-primary-fixed-variant">check</span> Amélioration continue pilotée par les usages réels du terrain.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Témoignage Dr Démoulins -->
+        <section class="py-24 px-6 bg-surface-container-lowest">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-primary-container/20 rounded-[3.5rem] p-8 md:p-16 flex flex-col lg:flex-row gap-12 items-center border border-primary/10 relative overflow-hidden">
+                    <span class="material-symbols-outlined absolute top-8 left-8 text-9xl text-primary/5 -z-10 rotate-180">format_quote</span>
+                    
+                    <div class="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-full overflow-hidden border-4 border-surface shadow-xl relative z-10 flex items-center justify-center bg-white">
+                        <img src="https://www.chu-angers.fr/medias/photo/dr-demoulins-07webcarre-chu-01avril2025_1744126907312-jpg" alt="Dr Edmond Démoulins" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="flex-1 relative z-10">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4 block">format_quote</span>
+                        <div class="space-y-4 text-sm md:text-base text-on-surface-variant leading-relaxed mb-8 italic">
+                            <p>
+                                « Nous connaissons tous le contexte international : le développement ce genre d’outils devient une nécessité. En tant que référent IA je suis sollicité quotidiennement pour des projets incluant de l’IA. Nous avons passé une phase de sidération, désormais les professionnels identifient les usages possibles et souhaitent donc des outils répondant à leurs besoins. Toutefois, du fait d’une volonté forte de souveraineté numérique nous ne pouvons laisser toutes les données partir sur des plateformes à l’étranger. Logiquement nous interdisons donc des pratiques administratives ou soignantes basées sur des outils gratuits mais prédateurs de données.
+                            </p>
+                            <p>
+                                G-NI nous permet de ne pas rester dans une posture d’interdiction. Avec cet outil nous pouvons communiquer que, certes nous interdisons un certain nombre d’usages, mais que nous sommes en cours de développement d’outils souverains en interne. Ce développement est aussi une invitation aux professionnels à venir proposer leurs idées et à co-conduire le développement.
+                            </p>
+                            <p>
+                                Ce processus nous permet de sortir d’une démarche passive de dépendance vis-à-vis d’outils externes vers une démarche motrice de création de nos propres outils adaptés à nos besoins. Il s’agit d’une démarche vertueuse, permettant aussi une prise de conscience des différents déterminants (ressources, gestion des données, etc.) des outils d’IA. »
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-on-surface">Dr Edmond Démoulins</h4>
+                            <p class="text-sm font-bold text-primary tracking-widest uppercase mt-1">Dermatologue et référent IA pour le CHU d’Angers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Équipe Projet Structurée -->
+        <section class="py-24 px-6 bg-on-surface text-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
+                    <h3 class="text-4xl font-extrabold flex items-center gap-4 text-white">
+                        <span class="material-symbols-outlined text-tertiary-fixed-dim text-5xl">groups</span>
+                        L'équipe projet
+                    </h3>
+                </div>
+
+                <!-- 1. Direction de Projet -->
+                <div class="mb-16">
+                    <h4 class="text-tertiary-fixed-dim font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">Direction de Projet</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="flex items-center gap-4 bg-tertiary/20 p-5 rounded-[2rem] border border-tertiary/30">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQEcjjoIo4QUIQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1597929030881?e=1776297600&v=beta&t=8xUD2ThaQXZm25HNxmjLsTqX05XVLeh_tEIRp84qI4I" alt="Antony Escudié" class="w-16 h-16 rounded-full border-2 border-tertiary-fixed-dim object-cover shadow-lg shrink-0">
+                            <div>
+                                <p class="font-bold text-tertiary-fixed-dim text-lg leading-tight">Antony Escudié</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-primary-fixed mt-1">Chef de Projet G-NI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Gouvernance Angevine de l'IA -->
+                <div class="mb-16">
+                    <h4 class="text-primary-fixed font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">Gouvernance Angevine de l'IA</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQEylTiXoIZpug/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1594063435161?e=1776297600&v=beta&t=W8PdA1nhFLibLvK071YbfzKcmfyq0Y6hCJjaATYYAS4" alt="S. Aloui" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">S. Aloui</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Directeur SN - Data / IA</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://www.chu-angers.fr/medias/photo/dr-demoulins-07webcarre-chu-01avril2025_1744126907312-jpg" alt="Dr Démoulins" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">Dr Démoulins</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Médecin référent IA</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-dinomais-06web-chu-09oct2023_1698414351542-jpg" alt="Pr Dinomais" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">Pr Dinomais</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Président du Conseil Scientifique</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-codron-06awebcarre-chu-14aout2025_1756116305439-jpg" alt="Pr Codron" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">Pr Codron</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Président Conseil Innovation</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://www.chu-angers.fr/medias/photo/m-riffet-vidal-dir-rech-07webportrait-chu-02avril2024_1713438783461-jpg?ID_FICHE=1190" alt="N. Riffet-Vidal" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">N. Riffet-Vidal</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Directeur Recherche / DRCI</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQHh0AmqdSOSSw/profile-displayphoto-shrink_200_200/B4EZZOf.fYHgAc-/0/1745073729316?e=1776297600&v=beta&t=9LFQEeENzvg7CMicvN2vcCXCf8ZGXOhxJf00Em1ssKA" alt="L. Laignel" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">L. Laignel</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Coordinatrice Générale des Soins</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Réseau d'Experts - Faculté de Santé -->
+                <div>
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-3">
+                        <h4 class="text-secondary-fixed font-bold text-sm uppercase tracking-[0.2em]">Faculté de Santé</h4>
+                        <button id="toggleExpertsBtn" class="text-xs font-bold text-surface bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-colors flex items-center gap-2">
+                            <span id="toggleText">Voir les 16 experts</span>
+                            <span class="material-symbols-outlined text-sm" id="toggleIcon">expand_more</span>
+                        </button>
+                    </div>
+                    
+                    <div id="expertsGrid" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+					
+					<!-- Expert S. Aloui -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://www.chu-angers.fr/medias/photo/dr-demoulins-07webcarre-chu-01avril2025_1744126907312-jpg" alt="S. Aloui" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr DÉMOULINS</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Dermatologie</p>
+                            </div>
+                        </div>
+					<!-- Expert S. Aloui -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQEylTiXoIZpug/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1594063435161?e=1776297600&v=beta&t=W8PdA1nhFLibLvK071YbfzKcmfyq0Y6hCJjaATYYAS4" alt="S. Aloui" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">S. Aloui</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Directeur SN<br>Data / IA</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Expert 1 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQF5gGzPdllfrw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1699461046776?e=1776297600&v=beta&t=lNjfH2UEXwG_SGduSwrPvhW-FwrqfD8qal37UsWVrLg" alt="R. Gaonac'h" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">R. Gaonac'h</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Juriste DRCI<br>Data / IA</p>
+                            </div>
+                        </div>
+                        <!-- Expert 2 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://www.chu-angers.fr/medias/photo/dr-fadel-11webcarre-chu-11aout2025_1756740621773-jpg" alt="Dr Fadel" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr FADEL</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">CDC<br>Data/épidémio</p>
+                            </div>
+                        </div>
+                        <!-- Expert 3 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQEBRkWOpXKTww/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724690848907?e=1776297600&v=beta&t=m25oQY7DH25FQUBlFrmem8hiONrZETT5yXtsb26afvA" alt="Pr Riou" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Pr RIOU</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biostatistiques<br>Traitement data</p>
+                            </div>
+                        </div>
+                        <!-- Expert 4 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">GK</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">G. Kaglan</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">CDC<br>Data-ingénieure</p>
+                            </div>
+                        </div>
+                        <!-- Expert 5 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-boursier-02webcarre-chu-10sept2015_1589958165749-jpg" alt="Pr Boursier" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Pr BOURSIER</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Hépato-gastro<br>Aide décision/IA</p>
+                            </div>
+                        </div>
+                        <!-- Expert 6 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">NI</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">N. IDRIS</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DSN / CDC<br>Qualité Data</p>
+                            </div>
+                        </div>
+                        <!-- Expert 7 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrL</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr LELIEVRE</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Pharmaco-tox<br>IA génératives</p>
+                            </div>
+                        </div>
+                        <!-- Expert 8 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-aube-08web-chu-04fev2025_1738934942468-jpg" alt="Pr Aubé" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Pr AUBE</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Radiologie<br>Assistant IA Radio</p>
+                            </div>
+                        </div>
+                        <!-- Expert 9 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrC</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr CHABRUN</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biochimie & BM<br>signal & image</p>
+                            </div>
+                        </div>
+                        <!-- Expert 10 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrD</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr DIEU</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biochimie & BM<br>signal & image</p>
+                            </div>
+                        </div>
+                        <!-- Expert 11 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQEcjjoIo4QUIQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1597929030881?e=1776297600&v=beta&t=8xUD2ThaQXZm25HNxmjLsTqX05XVLeh_tEIRp84qI4I" alt="Dr Escudié" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr ESCUDIE</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DSN/DRI<br>NLP, imagerie</p>
+                            </div>
+                        </div>
+                        <!-- Expert 12 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrF</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr FERRE</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Bio moléculaire<br>Deep Learning</p>
+                            </div>
+                        </div>
+                        <!-- Expert 13 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrT</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr TESSIER</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Anatomopath<br>Détection signal</p>
+                            </div>
+                        </div>
+                        <!-- Expert 14 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrD</div>
+                            <div>
+                                <p class="font-bold text-white text-sm">Dr DANEELS</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Infectiologie<br>LLM, IA gén</p>
+                            </div>
+                        </div>
+                        <!-- Expert 15 -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQHmpBBHcWslig/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1600417927807?e=1776297600&v=beta&t=oUHLkgYRtqcP9jRcskavSgUwzqTuKvjt8MijK7YWGFk" alt="M. Le Coz" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                            <div>
+                                <p class="font-bold text-white text-sm">M. Le Coz</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DRH<br>Automatisation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA Final SantExpo 2026 -->
+        <section id="santexpo" class="py-24 px-6">
+            <div class="max-w-5xl mx-auto bg-primary text-on-primary rounded-[3.5rem] p-12 md:p-16 text-center shadow-2xl relative overflow-hidden text-surface">
+                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-6 tracking-tight text-white">Prêt pour SantExpo 2026 ?</h2>
+                    <p class="text-primary-fixed text-base md:text-lg leading-relaxed max-w-2xl mx-auto text-blue-100">Rejoignez la révolution de l'intelligence souveraine au service du CHU d'Angers.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Video Pop-up -->
+    <div id="videoModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-on-surface/90 backdrop-blur-md p-4 transition-all duration-300">
+        <div class="relative w-full max-w-5xl bg-black rounded-[2.5rem] overflow-hidden shadow-2xl border border-outline/20 modal-animate-in">
+            <button id="closeModal" class="absolute top-4 right-4 md:top-6 md:right-6 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all active:scale-90">
+                <span class="material-symbols-outlined text-2xl md:text-3xl">close</span>
+            </button>
+            <div class="absolute top-4 left-6 md:top-6 md:left-8 z-20 pointer-events-none text-white drop-shadow-lg">
+                <h3 class="font-bold text-sm md:text-xl flex items-center gap-2">
+                    <span class="w-2 h-2 md:w-3 md:h-3 bg-red-600 rounded-full animate-pulse"></span>
+                    Démonstration G-NI Live
+                </h3>
+            </div>
+            <video id="demoVideo" controls class="w-full aspect-video block bg-black">
+                <source src="DemoGNI.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+            </video>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-low border-t border-surface-variant w-full font-manrope text-sm py-12 px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div class="flex items-center gap-3">
+                 <div class="relative w-8 h-8 flex items-center justify-center">
+                    <img src="Logo GNI_Small_CHU Angers.jpg" alt="Logo G-NI" class="max-w-full max-h-full object-contain rounded" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-6 h-6 bg-primary rounded items-center justify-center text-on-primary font-bold text-xs">G</div>
+                 </div>
+                 <div class="font-bold text-primary">G-NI | CHU d'Angers</div>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8 text-on-surface-variant text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                <a class="hover:text-on-surface transition-colors" href="#">Gouvernance</a>
+                <a class="hover:text-on-surface transition-colors" href="#">Protection HDS</a>
+                <a class="hover:text-on-surface transition-colors" href="#">Support DSN</a>
+            </div>
+            <div class="text-[10px] font-bold text-outline uppercase tracking-widest">
+                © 2026 Direction des Numériques - CHU d'Angers
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Gestion de la modale vidéo
+        const modal = document.getElementById('videoModal');
+        const video = document.getElementById('demoVideo');
+        const btnOpen = document.getElementById('openDemo');
+        const btnClose = document.getElementById('closeModal');
+
+        btnOpen.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            video.play().catch(() => {});
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeAction = () => {
+            modal.classList.add('hidden');
+            video.pause();
+            video.currentTime = 0;
+            document.body.style.overflow = '';
+        };
+
+        btnClose.addEventListener('click', closeAction);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeAction(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeAction(); });
+
+        // Gestion du déploiement de la grille des experts
+        const btnToggleExperts = document.getElementById('toggleExpertsBtn');
+        const gridExperts = document.getElementById('expertsGrid');
+        const textToggle = document.getElementById('toggleText');
+        const iconToggle = document.getElementById('toggleIcon');
+
+        btnToggleExperts.addEventListener('click', () => {
+            if (gridExperts.classList.contains('hidden')) {
+                gridExperts.classList.remove('hidden');
+                gridExperts.classList.add('grid-expand');
+                textToggle.textContent = 'Masquer les experts';
+                iconToggle.textContent = 'expand_less';
+            } else {
+                gridExperts.classList.add('hidden');
+                gridExperts.classList.remove('grid-expand');
+                textToggle.textContent = 'Voir les 16 experts';
+                iconToggle.textContent = 'expand_more';
+            }
+        });
+    </script>
+
+</body>
+</html>
