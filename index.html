@@ -933,17 +933,17 @@
         const video = document.getElementById('demoVideo');
         const btnOpen = document.getElementById('openDemo');
         const btnClose = document.getElementById('closeModal');
+        const canvaUrl = "https://www.canva.com/design/DAHFJ6d5CLY/7D9dBihKiltyuu08XaoQRg/view?embed";
 
         btnOpen.addEventListener('click', () => {
             modal.classList.remove('hidden');
-            video.play().catch(() => {});
+            video.src = canvaUrl; // Charge la vidéo Canva à l'ouverture
             document.body.style.overflow = 'hidden';
         });
 
         const closeAction = () => {
             modal.classList.add('hidden');
-            video.pause();
-            video.currentTime = 0;
+            video.src = ""; // Vide la source pour couper le son et la vidéo à la fermeture
             document.body.style.overflow = '';
         };
 
