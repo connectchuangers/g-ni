@@ -82,28 +82,90 @@
 </head>
 <body class="bg-surface text-on-surface antialiased">
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-surface-variant">
+    <!-- COMPOSANT HEADER DÉBUT -->
+    <!-- Utilisation de bg-white opaque pour effacer les conflits de couleur -->
+    <header class="fixed top-0 inset-x-0 z-[100] bg-white border-b border-outline/10 shadow-sm transition-all duration-300">
+        <!-- Hauteur fixe définie : h-24 = 96px, md:h-28 = 112px -->
         <div class="max-w-7xl mx-auto px-6 h-24 md:h-28 flex items-center justify-between">
+            
+            <!-- Logo Section -->
             <div class="flex items-center gap-4">
-                <div class="relative h-16 md:h-24 flex items-center justify-center">
-                    <img src="Logo GNI_CHU Angers.png" alt="Logo G-NI" class="h-full w-auto object-contain drop-shadow-sm" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="hidden w-16 h-16 md:w-20 md:h-20 bg-primary rounded-2xl items-center justify-center text-on-primary font-bold text-3xl">G</div>
+                <div class="relative h-16 md:h-20 flex items-center justify-center">
+                    <!-- Image Logo (fall-back G visible si pas chargée) -->
+                    <img src="Logo GNI_CHU Angers.png" alt="Logo G-NI" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-16 h-16 md:w-20 md:h-20 bg-primary rounded-2xl items-center justify-center text-on-primary font-bold text-3xl shadow-md">G</div>
                 </div>
-                
+                <div class="hidden sm:block">
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-primary leading-none">G-NI</h1>
+                    <p class="text-xs md:text-sm uppercase tracking-widest font-bold text-on-surface-variant mt-1">CHU Angers</p>
+                </div>
             </div>
-            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-on-surface-variant">
+            
+            <!-- Navigation Desktop -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm md:text-base font-bold text-on-surface-variant">
                 <a href="#vision" class="hover:text-primary transition-colors">Vision</a>
                 <a href="#usages" class="hover:text-primary transition-colors">Cas d'usage</a>
                 <a href="#architecture" class="hover:text-primary transition-colors">Architecture</a>
                 <a href="#methodologie" class="hover:text-primary transition-colors">Déploiement</a>
                 <a href="#perspectives" class="hover:text-primary transition-colors">Perspectives</a>
-                <a href="https://www.santexpo.com/" target="_blank" rel="noopener noreferrer" class="bg-primary text-on-primary px-4 py-2 rounded-full text-xs font-bold hover:shadow-md transition-all">
+                <a href="#santexpo" class="bg-primary text-on-primary px-5 py-2.5 rounded-full text-sm font-extrabold shadow-md hover:shadow-lg hover:scale-105 transition-all">
                     SantExpo 2026
                 </a>
             </nav>
+
+            <!-- Bouton Burger Mobile -->
+            <button id="mobileMenuBtn" class="lg:hidden flex items-center justify-center text-on-surface-variant hover:text-primary p-2 transition-colors active:scale-95">
+                <span id="burgerIcon" class="material-symbols-outlined text-4xl">menu</span>
+            </button>
+        </div>
+
+        <!-- Menu Mobile Overlay (100% opaque, prend toute la hauteur sous le header) -->
+        <!-- top-24 (96px) sur petit écran et top-28 (112px) sur grand écran correspond à la hauteur du header -->
+        <div id="mobileMenu" class="hidden absolute top-24 md:top-28 inset-x-0 h-[calc(100vh-6rem)] md:h-[calc(100vh-7rem)] bg-white border-t border-outline/10 p-8 flex-col gap-6 overflow-y-auto">
+            <a href="#vision" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Vision</a>
+            <a href="#usages" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Cas d'usage</a>
+            <a href="#architecture" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Architecture</a>
+            <a href="#methodologie" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Déploiement</a>
+            <a href="#perspectives" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Perspectives</a>
+            <div class="pt-6">
+                <a href="#santexpo" class="mobile-link block w-full bg-primary text-on-primary px-6 py-5 rounded-2xl text-center text-xl font-extrabold shadow-md active:scale-95 transition-transform">
+                    SantExpo 2026
+                </a>
+            </div>
         </div>
     </header>
+    <!-- COMPOSANT HEADER FIN -->
+
+    <script>
+        const btn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('mobileMenu');
+        const icon = document.getElementById('burgerIcon');
+        const links = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = () => {
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                // Ouvrir
+                menu.classList.remove('hidden');
+                menu.classList.add('flex', 'menu-open');
+                icon.textContent = 'close';
+                document.body.style.overflow = 'hidden'; // Bloque le scroll
+            } else {
+                // Fermer
+                menu.classList.add('hidden');
+                menu.classList.remove('flex', 'menu-open');
+                icon.textContent = 'menu';
+                document.body.style.overflow = ''; // Autorise le scroll
+            }
+        };
+
+        btn.addEventListener('click', toggleMenu);
+
+        // Fermeture automatique au clic sur un lien mobile
+        links.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
 
     <main class="pt-16">
         <!-- Hero Section -->
