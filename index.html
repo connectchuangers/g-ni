@@ -57,10 +57,8 @@
       };
     </script>
     <style>
-        body { font-family: 'Manrope', sans-serif; }
+        body { font-family: 'Manrope', sans-serif; background-color: #f8fafb; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .modal-animate-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .tech-list li::before { content: "•"; color: #005581; font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
         
         /* Timeline styles */
@@ -68,30 +66,22 @@
         .timeline-dot { width: 12px; height: 12px; border: 2px solid #005581; background: #ffffff; z-index: 10; transition: all 0.3s ease; }
         .timeline-item:hover .timeline-dot { background: #005581; transform: scale(1.3); }
 
-        /* Animation pour le menu déroulant des experts */
-        .grid-expand {
-            display: grid;
-            animation: slideDown 0.4s ease-out forwards;
-            transform-origin: top center;
-        }
+        /* Animation fluide menu mobile & grille */
+        .grid-expand { display: grid; animation: slideDown 0.4s ease-out forwards; transform-origin: top center; }
+        .menu-open { animation: slideDown 0.3s ease-out forwards; }
         @keyframes slideDown {
-            0% { opacity: 0; transform: scaleY(0.9); }
-            100% { opacity: 1; transform: scaleY(1); }
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="bg-surface text-on-surface antialiased">
+<body class="antialiased text-on-surface">
 
-    <!-- COMPOSANT HEADER DÉBUT -->
-    <!-- Utilisation de bg-white opaque pour effacer les conflits de couleur -->
+    <!-- Header Opaque -->
     <header class="fixed top-0 inset-x-0 z-[100] bg-white border-b border-outline/10 shadow-sm transition-all duration-300">
-        <!-- Hauteur fixe définie : h-24 = 96px, md:h-28 = 112px -->
         <div class="max-w-7xl mx-auto px-6 h-24 md:h-28 flex items-center justify-between">
-            
-            <!-- Logo Section -->
             <div class="flex items-center gap-4">
                 <div class="relative h-16 md:h-20 flex items-center justify-center">
-                    <!-- Image Logo (fall-back G visible si pas chargée) -->
                     <img src="Logo GNI_CHU Angers.png" alt="Logo G-NI" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-16 h-16 md:w-20 md:h-20 bg-primary rounded-2xl items-center justify-center text-on-primary font-bold text-3xl shadow-md">G</div>
                 </div>
@@ -104,7 +94,7 @@
                 <a href="#architecture" class="hover:text-primary transition-colors">Architecture</a>
                 <a href="#methodologie" class="hover:text-primary transition-colors">Déploiement</a>
                 <a href="#perspectives" class="hover:text-primary transition-colors">Perspectives</a>
-                <a href="#santexpo" class="bg-primary text-on-primary px-5 py-2.5 rounded-full text-sm font-extrabold shadow-md hover:shadow-lg hover:scale-105 transition-all">
+                <a href="https://www.santexpo.com/" target="_blank" rel="noopener noreferrer" class="bg-primary text-on-primary px-5 py-2.5 rounded-full text-sm font-extrabold shadow-md hover:shadow-lg hover:scale-105 transition-all">
                     SantExpo 2026
                 </a>
             </nav>
@@ -115,8 +105,7 @@
             </button>
         </div>
 
-        <!-- Menu Mobile Overlay (100% opaque, prend toute la hauteur sous le header) -->
-        <!-- top-24 (96px) sur petit écran et top-28 (112px) sur grand écran correspond à la hauteur du header -->
+        <!-- Menu Mobile Overlay -->
         <div id="mobileMenu" class="hidden absolute top-24 md:top-28 inset-x-0 h-[calc(100vh-6rem)] md:h-[calc(100vh-7rem)] bg-white border-t border-outline/10 p-8 flex-col gap-6 overflow-y-auto">
             <a href="#vision" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Vision</a>
             <a href="#usages" class="mobile-link text-3xl font-extrabold text-on-surface hover:text-primary transition-colors border-b border-outline/10 pb-4 block">Cas d'usage</a>
@@ -130,40 +119,8 @@
             </div>
         </div>
     </header>
-    <!-- COMPOSANT HEADER FIN -->
 
-    <script>
-        const btn = document.getElementById('mobileMenuBtn');
-        const menu = document.getElementById('mobileMenu');
-        const icon = document.getElementById('burgerIcon');
-        const links = document.querySelectorAll('.mobile-link');
-
-        const toggleMenu = () => {
-            const isHidden = menu.classList.contains('hidden');
-            if (isHidden) {
-                // Ouvrir
-                menu.classList.remove('hidden');
-                menu.classList.add('flex', 'menu-open');
-                icon.textContent = 'close';
-                document.body.style.overflow = 'hidden'; // Bloque le scroll
-            } else {
-                // Fermer
-                menu.classList.add('hidden');
-                menu.classList.remove('flex', 'menu-open');
-                icon.textContent = 'menu';
-                document.body.style.overflow = ''; // Autorise le scroll
-            }
-        };
-
-        btn.addEventListener('click', toggleMenu);
-
-        // Fermeture automatique au clic sur un lien mobile
-        links.forEach(link => {
-            link.addEventListener('click', toggleMenu);
-        });
-    </script>
-
-    <main class="pt-16">
+    <main class="pt-24 md:pt-28">
         <!-- Hero Section -->
         <section class="py-20 px-6 bg-gradient-to-b from-primary-container/30 to-surface">
             <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
@@ -179,54 +136,71 @@
                         Le <strong>Guide Numérique Intelligent</strong> est une plateforme maîtrisée, déjà en production, offrant une alternative sécurisée au "Shadow IT" pour les professionnels de santé.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        
-                        <button id="openDemo" class="bg-surface-container-high text-on-surface px-8 py-4 rounded-2xl font-bold border border-outline/20 hover:bg-surface-container transition-all flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined">play_circle</span>
-                            Voir la démo
-                        </button>
+                        <a href="#santexpo" class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-on-primary-fixed-variant transition-all text-center">
+                            Découvrir le projet
+                        </a>
                     </div>
-
-                    
                 </div>
-
                 
-                <div class="relative">
-                    <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] shadow-2xl border border-surface-variant relative z-10">
-                        <div class="flex items-center gap-4 mb-6 border-b border-surface-variant pb-4">
-                            <div class="w-12 h-12 bg-primary-fixed-dim rounded-full flex items-center justify-center">
-                                <span class="material-symbols-outlined text-on-primary-container">psychology</span>
+                <!-- Vidéo Hero -->
+                <div class="relative w-full max-w-2xl mx-auto lg:max-w-none group">
+                    <!-- Effet de halo coloré en arrière-plan -->
+                    <div class="absolute -inset-1 bg-gradient-to-r from-primary to-tertiary rounded-[2.5rem] blur opacity-25 transition duration-1000 z-0"></div>
+                    
+                    <!-- Conteneur vidéo avec style adapté au design de base -->
+                    <div class="relative w-full aspect-video rounded-[2.5rem] shadow-2xl overflow-hidden border border-surface-variant z-10 bg-black flex items-center justify-center cursor-pointer" id="videoContainer">
+                        <video id="demoVideo" class="w-full h-full block object-cover">
+                            <source src="TemoignagePhilippeCodron.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                        </video>
+                        
+                        <!-- Overlay Miniature & Bouton Play -->
+                        <div id="videoOverlay" class="absolute inset-0 z-20 transition-opacity duration-500 flex items-center justify-center bg-on-surface/40">
+                            <!-- Image de fond (Miniature) -->
+                            <div class="absolute inset-0 bg-cover bg-center opacity-70" style="background-image: url('https://www.chu-angers.fr/medias/photo/pr-codron-06awebcarre-chu-14aout2025_1756116305439-jpg');"></div>
+                            <!-- Dégradé d'assombrissement -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 via-transparent to-transparent"></div>
+                            
+                            <!-- Bouton Play central effet verre -->
+                            <div class="w-20 h-20 bg-surface/30 backdrop-blur-md rounded-full flex items-center justify-center border border-surface/50 group-hover:scale-110 group-hover:bg-surface/50 transition-all duration-300 z-30 shadow-2xl">
+                                <span class="material-symbols-outlined text-white text-5xl ml-2 drop-shadow-md">play_arrow</span>
                             </div>
-                            <div>
-                                <h3 class="font-bold text-on-surface">Assistant G-NI</h3>
-                                <p class="text-xs text-on-surface-variant italic">Modèle local souverain</p>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="bg-surface-container-low p-4 rounded-2xl text-sm text-on-surface-variant border border-outline/10">
-                                "Besoin de synthétiser le protocole d'admission pour le service Dermatologie..."
-                            </div>
-                            <div class="bg-primary-container/40 p-4 rounded-2xl text-sm text-on-primary-container leading-relaxed border border-primary/10">
-                                <strong>G-NI :</strong> Voici la synthèse basée sur le document 'Protocole_V4'. Les points clés sont : 1. Accueil patient... 2. Vérification constante... 
+
+                            <!-- Titre sur la miniature -->
+                            <div class="absolute bottom-6 left-6 right-6 z-30 hidden md:block text-left">
+                                <p class="text-white font-bold text-lg drop-shadow-md">Témoignage Pr Codron</p>
+                                <p class="text-surface-container-high text-sm drop-shadow-md opacity-90">Président du Conseil Innovation</p>
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-tertiary-fixed-dim rounded-full mix-blend-multiply filter blur-2xl opacity-30"></div>
+                    
+                    <!-- Élément décoratif "Données Sécurisées" remonté -->
+                    <div class="absolute -top-6 -left-6 pointer-events-none bg-surface/90 backdrop-blur-md border border-outline/20 shadow-xl p-4 rounded-2xl z-20 hidden md:flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+                        <div class="w-10 h-10 bg-tertiary-container rounded-full flex items-center justify-center text-tertiary">
+                            <span class="material-symbols-outlined">shield_locked</span>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Données Sécurisées</p>
+                            <p class="text-[10px] text-on-surface-variant">Hébergement HDS</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Bandeau Logos du Jury -->
         <section class="py-12 px-6 border-b border-outline/10 bg-surface">
             <div class="max-w-7xl mx-auto">
                 <p class="text-center text-xs md:text-sm font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-10">Prix de l'Innovation soutenu par le jury :</p>
                 <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 lg:gap-24">
-                     <!-- Logo 1 -->
-                    <img src="photos/MGEN.png" alt="Logo Mutuelle 1" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                    <!-- Logo 1 -->
+                    <img src="photos/MGEN.png" alt="MGEN" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
                     <!-- Logo 2 -->
-                    <img src="photos/logo-MNH.png" alt="Logo Mutuelle 2" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                    <img src="photos/logo-MNH.png" alt="Logo MNH" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
                     <!-- Logo 3 -->
-                    <img src="photos/Logo-Relyens.svg" alt="Logo Mutuelle 3" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                    <img src="photos/Relyens.jpg" alt="Logo Reylens" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
                     <!-- Logo 4 -->
-                    <img src="photos/LOGOCONF2016.jpg" alt="Logo Mutuelle 4" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                    <img src="photos/LOGOCONF2016.jpg" alt="Logo Mutuelle" class="h-10 md:h-14 lg:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300">
                 </div>
             </div>
         </section>
@@ -687,7 +661,7 @@
                     <span class="material-symbols-outlined absolute top-8 left-8 text-9xl text-primary/5 -z-10 rotate-180">format_quote</span>
                     
                     <div class="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-full overflow-hidden border-4 border-surface shadow-xl relative z-10 flex items-center justify-center bg-white">
-                        <img src="photos/Demoulins.jpg" alt="Dr Edmond Démoulins" class="w-full h-full object-cover">
+                        <img src="https://www.chu-angers.fr/medias/photo/dr-demoulins-07webcarre-chu-01avril2025_1744126907312-jpg" alt="Dr Edmond Démoulins" class="w-full h-full object-cover">
                     </div>
                     
                     <div class="flex-1 relative z-10">
@@ -724,13 +698,20 @@
 
                 <!-- 1. Direction de Projet -->
                 <div class="mb-16">
-                    <h4 class="text-tertiary-fixed-dim font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">Chefferie de Projet</h4>
+                    <h4 class="text-tertiary-fixed-dim font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">Direction de Projet</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="flex items-center gap-4 bg-tertiary/20 p-5 rounded-[2rem] border border-tertiary/30">
-                            <img src="photos/escudie.jpg" alt="Antony Escudié" class="w-16 h-16 rounded-full border-2 border-tertiary-fixed-dim object-cover shadow-lg shrink-0">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQEcjjoIo4QUIQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1597929030881?e=1776297600&v=beta&t=8xUD2ThaQXZm25HNxmjLsTqX05XVLeh_tEIRp84qI4I" alt="Antony Escudié" class="w-16 h-16 rounded-full border-2 border-tertiary-fixed-dim object-cover shadow-lg shrink-0">
                             <div>
-                                <p class="font-bold text-tertiary-fixed-dim text-lg leading-tight">Antony Escudié</p>
+                                <p class="font-bold text-tertiary-fixed-dim text-lg leading-tight">Dr Escudié</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-primary-fixed mt-1">Chef de Projet G-NI</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-5 rounded-[2rem] border border-tertiary/30">
+                            <img src="photos/rousseau.jpg" alt="Antony Escudié" class="w-16 h-16 rounded-full border-2 border-tertiary-fixed-dim object-cover shadow-lg shrink-0">
+                            <div>
+                                <p class="font-bold text-white text-base">G.Rousseau</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-primary-fixed mt-1">Responsable Ingénierie et Opérations des infrastructures</p>
                             </div>
                         </div>
                     </div>
@@ -738,48 +719,55 @@
 
                 <!-- 2. Gouvernance Angevine de l'IA -->
                 <div class="mb-16">
-                    <h4 class="text-primary-fixed font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">GAIA : Gouvernance Angevine de l'IA</h4>
+                    <h4 class="text-primary-fixed font-bold text-sm uppercase tracking-[0.2em] mb-6 border-b border-white/10 pb-3">Gouvernance Angevine de l'IA</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/aloui.jpg" alt="S. Aloui" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQEylTiXoIZpug/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1594063435161?e=1776297600&v=beta&t=W8PdA1nhFLibLvK071YbfzKcmfyq0Y6hCJjaATYYAS4" alt="S. Aloui" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-base">S. Aloui</p>
+                                <p class="font-bold text-white text-base">Dr Aloui</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Directeur SN - Data / IA</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/Demoulins.jpg" alt="Dr Démoulins" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://www.chu-angers.fr/medias/photo/dr-demoulins-07webcarre-chu-01avril2025_1744126907312-jpg" alt="Dr Démoulins" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-base">Dr Démoulins</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Médecin référent IA</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/Dinomais.jpg" alt="Pr Dinomais" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-dinomais-06web-chu-09oct2023_1698414351542-jpg" alt="Pr Dinomais" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-base">Pr Dinomais</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Président du Conseil Scientifique</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/Codron.jpg" alt="Pr Codron" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://www.chu-angers.fr/medias/photo/pr-codron-06awebcarre-chu-14aout2025_1756116305439-jpg" alt="Pr Codron" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-base">Pr Codron</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Président Conseil Innovation</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/riffet-vidal.jpg" alt="N. Riffet-Vidal" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://www.chu-angers.fr/medias/photo/m-riffet-vidal-dir-rech-07webportrait-chu-02avril2024_1713438783461-jpg?ID_FICHE=1190" alt="N. Riffet-Vidal" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-base">N. Riffet-Vidal</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Directeur Recherche / DRCI</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                            <img src="photos/laignel.jpg" alt="L. Laignel" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQHh0AmqdSOSSw/profile-displayphoto-shrink_200_200/B4EZZOf.fYHgAc-/0/1745073729316?e=1776297600&v=beta&t=9LFQEeENzvg7CMicvN2vcCXCf8ZGXOhxJf00Em1ssKA" alt="L. Laignel" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-base">L. Laignel</p>
                                 <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Coordinatrice Générale des Soins</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/LELIEVRE.jpg" alt="Dr Lelievre" class="w-14 h-14 rounded-full border-2 border-white/20 object-cover shrink-0 bg-white">
+                            <div>
+                                <p class="font-bold text-white text-base">Dr Lelievre</p>
+                                <p class="text-[10px] uppercase tracking-widest font-bold text-surface-container-high mt-1">Pharmacologie clinique et Toxicologie</p>
                             </div>
                         </div>
                     </div>
@@ -788,147 +776,145 @@
                 <!-- 3. Réseau d'Experts - Faculté de Santé -->
                 <div>
                     <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-3">
-                        <h4 class="text-secondary-fixed font-bold text-sm uppercase tracking-[0.2em]">Faculté de Santé</h4>
+                        <h4 class="text-secondary-fixed font-bold text-sm uppercase tracking-[0.2em]">Réseau d'Experts - CHUA & Faculté de Santé</h4>
                         <button id="toggleExpertsBtn" class="text-xs font-bold text-surface bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-colors flex items-center gap-2">
-                            <span id="toggleText">Voir les 16 experts</span>
+                            <span id="toggleText">Voir les 17 experts</span>
                             <span class="material-symbols-outlined text-sm" id="toggleIcon">expand_more</span>
                         </button>
                     </div>
                     
                     <div id="expertsGrid" class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-					
-					
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/Demoulins.jpg" alt="S. Aloui" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Dr Démoulins -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/Demoulins.jpg" alt="Dr Démoulins" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">Dr DÉMOULINS</p>
-                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Dermatologie</p>
+                                <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Médecin référent<br>IA & Santé Digitale</p>
                             </div>
                         </div>
-					
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/aloui.jpg" alt="S. Aloui" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert S. Aloui -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/aloui.jpg" alt="S. Aloui" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm"> DRAloui</p>
+                                <p class="font-bold text-white text-sm">S. Aloui</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Directeur SN<br>Data / IA</p>
                             </div>
                         </div>
-                        
-                        <!-- Expert 1 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/Gaonac'h.jpg" alt="R. Gaonac'h" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert R. Gaonac'h -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/Gaonac'h.jpg" alt="R. Gaonac'h" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">R. Gaonac'h</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Juriste DRCI<br>Data / IA</p>
                             </div>
                         </div>
-                        <!-- Expert 2 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/FADEL.jpg" alt="Dr Fadel" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Dr Fadel -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/FADEL.jpg" alt="Dr Fadel" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">Dr FADEL</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">CDC<br>Data/épidémio</p>
                             </div>
                         </div>
-                        <!-- Expert 3 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/riou.jpg" alt="Pr Riou" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Pr Riou -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/riou.jpg" alt="Pr Riou" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">Pr RIOU</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biostatistiques<br>Traitement data</p>
                             </div>
                         </div>
-                        <!-- Expert 4 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">GK</div>
+                        <!-- Expert G. Kaglan (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/kaglan.png" alt="G. Kaglan" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">G. Kaglan</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">CDC<br>Data-ingénieure</p>
                             </div>
                         </div>
-                        <!-- Expert 5 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/boursier.jpg" alt="Pr Boursier" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Pr Boursier -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/boursier.jpg" alt="Pr Boursier" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Pr BOURSIER</p>
+                                <p class="font-bold text-white text-sm">Pr Boursier</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Hépato-gastro<br>Aide décision/IA</p>
                             </div>
                         </div>
-                        <!-- Expert 6 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/idris.jpg" alt="Pr Boursier" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert N. Idris (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                             <img src="photos/idris.jpg" alt="N. Idris Pacha" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">N. IDRIS</p>
+                                <p class="font-bold text-white text-sm">N. Idrid Pacha</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DSN / CDC<br>Qualité Data</p>
                             </div>
                         </div>
-                        <!-- Expert 7 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrL</div>
+                        <!-- Expert Dr Lelievre (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                             <img src="photos/LELIEVRE.jpg" alt="Dr Lelievre" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr LELIEVRE</p>
+                                <p class="font-bold text-white text-sm">Dr Lelievre</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Pharmaco-tox<br>IA génératives</p>
                             </div>
                         </div>
-                        <!-- Expert 8 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/aube.jpg"Pr Aubé" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Pr Aubé -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/aube.jpg" alt="Pr Aubé" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Pr AUBE</p>
+                                <p class="font-bold text-white text-sm">Pr Aubé</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Radiologie<br>Assistant IA Radio</p>
                             </div>
                         </div>
-                        <!-- Expert 9 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrC</div>
+                        <!-- Expert Dr Chabrun (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/chabrun.jpg" alt="Dr Chabrun" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr CHABRUN</p>
+                                <p class="font-bold text-white text-sm">Dr Chabrun</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biochimie & BM<br>signal & image</p>
                             </div>
                         </div>
-                        <!-- Expert 10 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrD</div>
+                        <!-- Expert Dr Dieu (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/dieu.jpg" alt="Pr Dieu" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr DIEU</p>
+                                <p class="font-bold text-white text-sm">Dr Dieu</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Biochimie & BM<br>signal & image</p>
                             </div>
                         </div>
-                        <!-- Expert 11 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/escudie.jpg" alt="Dr Escudié" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert Dr Escudié -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/escudie.jpg" alt="Dr Escudié" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr ESCUDIE</p>
+                                <p class="font-bold text-white text-sm">Dr Escudie</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DSN/DRI<br>NLP, imagerie</p>
                             </div>
                         </div>
-                        <!-- Expert 12 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrF</div>
+                        <!-- Expert Dr Ferre (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/ferre.jpg" alt="Dr Ferre" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr FERRE</p>
+                                <p class="font-bold text-white text-sm">Dr Ferre</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Bio moléculaire<br>Deep Learning</p>
                             </div>
                         </div>
-                        <!-- Expert 13 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrT</div>
+                        <!-- Expert Dr Tessier (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/tessier.jpg" alt="Dr Tessier" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr TESSIER</p>
+                                <p class="font-bold text-white text-sm">Dr Tessier</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Anatomopath<br>Détection signal</p>
                             </div>
                         </div>
-                        <!-- Expert 14 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-sm shrink-0 border-2 border-white/10">DrD</div>
+                        <!-- Expert Dr Daneels (Initials) -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/daneels.jpg" alt="Dr Daneels" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
-                                <p class="font-bold text-white text-sm">Dr DANEELS</p>
+                                <p class="font-bold text-white text-sm">Dr Daneels</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">Infectiologie<br>LLM, IA gén</p>
                             </div>
                         </div>
-                        <!-- Expert 15 -->
-                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img src="photos/lecoz.jpg" alt="M. Le Coz" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-surface-variant">
+                        <!-- Expert M. Le Coz -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <img src="photos/lecoz.jpg" alt="M. Le Coz" class="w-12 h-12 rounded-full object-cover border-2 border-white/10 shrink-0 bg-white">
                             <div>
                                 <p class="font-bold text-white text-sm">M. Le Coz</p>
                                 <p class="text-[9px] uppercase tracking-widest text-surface-container-high leading-tight mt-1">DRH<br>Automatisation</p>
@@ -940,46 +926,18 @@
             </div>
         </section>
 
-        <!-- CTA Final SantExpo 2026 -->
-        <section id="santexpo" class="py-24 px-6">
-            <div class="max-w-5xl mx-auto bg-primary text-on-primary rounded-[3.5rem] p-12 md:p-16 text-center shadow-2xl relative overflow-hidden text-surface">
-                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent"></div>
-                <div class="relative z-10">
-                    <h2 class="text-3xl md:text-4xl font-extrabold mb-6 tracking-tight text-white">Prêt pour SantExpo 2026 ?</h2>
-                    <p class="text-primary-fixed text-base md:text-lg leading-relaxed max-w-2xl mx-auto text-blue-100">Rejoignez la révolution de l'intelligence souveraine au service du CHU d'Angers.</p>
-                </div>
-            </div>
-        </section>
+        
     </main>
-
-    <!-- Modal Video Pop-up -->
-    <div id="videoModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-on-surface/90 backdrop-blur-md p-4 transition-all duration-300">
-        <div class="relative w-full max-w-5xl bg-black rounded-[2.5rem] overflow-hidden shadow-2xl border border-outline/20 modal-animate-in">
-            <button id="closeModal" class="absolute top-4 right-4 md:top-6 md:right-6 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all active:scale-90">
-                <span class="material-symbols-outlined text-2xl md:text-3xl">close</span>
-            </button>
-            <div class="absolute top-4 left-6 md:top-6 md:left-8 z-20 pointer-events-none text-white drop-shadow-lg">
-                <h3 class="font-bold text-sm md:text-xl flex items-center gap-2">
-                    <span class="w-2 h-2 md:w-3 md:h-3 bg-red-600 rounded-full animate-pulse"></span>
-                    Démonstration G-NI Live
-                </h3>
-            </div>
-            <video id="demoVideo" controls class="w-full aspect-video block bg-black">
-                <source src="TemoignagePhilippeCodron.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la lecture de vidéos HTML5.
-            </video>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-surface-container-low border-t border-surface-variant w-full font-manrope text-sm py-12 px-8">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-            <div class="flex items-center gap-3">
-                 <div class="relative w-8 h-8 flex items-center justify-center">
-                    <img src="Logo GNI_Small_CHU Angers.jpg" alt="Logo G-NI" class="max-w-full max-h-full object-contain rounded" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="hidden w-6 h-6 bg-primary rounded items-center justify-center text-on-primary font-bold text-xs">G</div>
+            <div class="flex items-center gap-4">
+                 <div class="relative h-10 flex items-center justify-center">
+                    <img src="Logo GNI_CHU Angers.png" alt="Logo G-NI" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-8 h-8 bg-primary rounded items-center justify-center text-on-primary font-bold text-xs">G</div>
                  </div>
-                 <div class="font-bold text-primary">G-NI | CHU d'Angers</div>
+                 <div class="font-bold text-primary text-base">G-NI | CHU d'Angers</div>
             </div>
             <div class="flex flex-wrap justify-center gap-8 text-on-surface-variant text-[10px] md:text-xs font-bold uppercase tracking-widest">
                 <a class="hover:text-on-surface transition-colors" href="#">Gouvernance</a>
@@ -987,34 +945,61 @@
                 <a class="hover:text-on-surface transition-colors" href="#">Support DSN</a>
             </div>
             <div class="text-[10px] font-bold text-outline uppercase tracking-widest">
-                © 2026 Direction des Numériques - CHU d'Angers
+                © 2026 Direction du Système d'Information - CHUA
             </div>
         </div>
     </footer>
 
     <script>
-        // Gestion de la modale vidéo
-        const modal = document.getElementById('videoModal');
+        // Gestion du lecteur vidéo personnalisé
         const video = document.getElementById('demoVideo');
-        const btnOpen = document.getElementById('openDemo');
-        const btnClose = document.getElementById('closeModal');
+        const overlay = document.getElementById('videoOverlay');
+        const videoContainer = document.getElementById('videoContainer');
 
-        btnOpen.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-            video.play().catch(() => {});
-            document.body.style.overflow = 'hidden';
-        });
+        if (overlay && video && videoContainer) {
+            videoContainer.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    // Ajout des contrôles dès la première lecture
+                    video.setAttribute('controls', 'controls');
+                    // Fondu sortant de la miniature
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.classList.add('hidden');
+                    }, 500);
+                }
+            });
+        }
 
-        const closeAction = () => {
-            modal.classList.add('hidden');
-            video.pause();
-            video.currentTime = 0;
-            document.body.style.overflow = '';
+        // Gestion du menu mobile
+        const btnMenu = document.getElementById('mobileMenuBtn');
+        const menuMobile = document.getElementById('mobileMenu');
+        const iconBurger = document.getElementById('burgerIcon');
+        const linksMobile = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = () => {
+            const isHidden = menuMobile.classList.contains('hidden');
+            if (isHidden) {
+                menuMobile.classList.remove('hidden');
+                menuMobile.classList.add('flex', 'menu-open');
+                iconBurger.textContent = 'close';
+                document.body.style.overflow = 'hidden'; // Bloque le scroll
+            } else {
+                menuMobile.classList.add('hidden');
+                menuMobile.classList.remove('flex', 'menu-open');
+                iconBurger.textContent = 'menu';
+                document.body.style.overflow = ''; // Autorise le scroll
+            }
         };
 
-        btnClose.addEventListener('click', closeAction);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeAction(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeAction(); });
+        if(btnMenu) btnMenu.addEventListener('click', toggleMenu);
+
+        // Fermeture automatique au clic sur un lien mobile
+        if(linksMobile) {
+            linksMobile.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        }
 
         // Gestion du déploiement de la grille des experts
         const btnToggleExperts = document.getElementById('toggleExpertsBtn');
@@ -1022,19 +1007,21 @@
         const textToggle = document.getElementById('toggleText');
         const iconToggle = document.getElementById('toggleIcon');
 
-        btnToggleExperts.addEventListener('click', () => {
-            if (gridExperts.classList.contains('hidden')) {
-                gridExperts.classList.remove('hidden');
-                gridExperts.classList.add('grid-expand');
-                textToggle.textContent = 'Masquer les experts';
-                iconToggle.textContent = 'expand_less';
-            } else {
-                gridExperts.classList.add('hidden');
-                gridExperts.classList.remove('grid-expand');
-                textToggle.textContent = 'Voir les 16 experts';
-                iconToggle.textContent = 'expand_more';
-            }
-        });
+        if(btnToggleExperts) {
+            btnToggleExperts.addEventListener('click', () => {
+                if (gridExperts.classList.contains('hidden')) {
+                    gridExperts.classList.remove('hidden');
+                    gridExperts.classList.add('grid-expand');
+                    textToggle.textContent = 'Masquer les experts';
+                    iconToggle.textContent = 'expand_less';
+                } else {
+                    gridExperts.classList.add('hidden');
+                    gridExperts.classList.remove('grid-expand');
+                    textToggle.textContent = 'Voir les 17 experts';
+                    iconToggle.textContent = 'expand_more';
+                }
+            });
+        }
     </script>
 
 </body>
